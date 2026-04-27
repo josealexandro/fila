@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sistema de Fila</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* CAIXA */
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+        }
+
+        /* BALÃO */
+
+        .senha-balao {
+            width: 140px;
+            height: 140px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px auto;
+        }
+
+        /* BOTÕES */
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .normal {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .prioridade {
+            background-color: #e67e22;
+            color: white;
+        }
+
+        .chamar {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* MENSAGEM */
+
+        .mensagem {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #2ecc71;
+            color: white;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* FILAS */
+
+        .filas {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Sistema de Fila</h1>
+
+    <div class="senha-balao" id="senha">
+        ---
+    </div>
+
+    <div id="mensagem" class="mensagem">
+    </div>
+
+    <button class="normal" onclick="gerarNormal()">
+        Gerar Normal
+    </button>
+
+    <button class="prioridade" onclick="gerarPrioridade()">
+        Gerar Prioridade
+    </button>
+
+    <button class="chamar" onclick="chamar()">
+        Chamar Próxima
+    </button>
+
+    <div class="filas">
+
+        <p><strong>Fila Normal:</strong></p>
+        <p id="filaNormal">---</p>
+
+        <p><strong>Fila Prioridade:</strong></p>
+        <p id="filaPrioridade">---</p>
+
+    </div>
+
+</div>
+
+<script>
+
+    /* GERAR NORMAL */
+
+    function gerarNormal() {
+
+        fetch("/gerarNormal", {
+            method: "POST"
+        })
+            .then(response => response.text())
+            .then(data => {
+
+                mostrarMensagem(
+                    "Senha gerada com sucesso: " + data
+                );
+
+                atualizarFilas();
+
+            });
+
+    }
+
+    /* GERAR PRIORIDADE */
+
+    function gerarPrioridade() {
+
+        fetch("/gerarPrioridade", {
+            method: "POST"
+        })
+            .then(response => response.text())
+            .then(data => {
+
+                mostrarMensagem(
+                    "Senha PRIORITÁRIA gerada: " + data
+                );
+
+                atualizarFilas();
+
+            });
+
+    }
+
+    /* CHAMAR */
+
+    function chamar() {
+
+        fetch("/chamar", {
+            method: "POST"
+        })
+            .then(response => response.text())
+            .then(data => {
+
+                document.getElementById("senha").innerText = data;
+
+                tocarSom();
+
+                atualizarFilas();
+
+            });
+
+    }
+
+    /* MENSAGEM */
+
+    function mostrarMensagem(texto) {
+
+        let msg = document.getElementById("mensagem");
+
+        msg.innerText = texto;
+
+        msg.style.display = "block";
+
+        setTimeout(() => {
+
+            msg.style.display = "none";
+
+        }, 3000);
+
+    }
+
+    /* SOM */
+
+    function tocarSom() {
+
+        let audio = new Audio(
+            "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
+        );
+
+        audio.play();
+
+    }
+
+    /* ATUALIZAR FILAS */
+
+    function atualizarFilas() {
+
+        fetch("/filaNormal")
+            .then(response => response.text())
+            .then(data => {
+
+                document.getElementById("filaNormal").innerText = data;
+
+            });
+
+        fetch("/filaPrioridade")
+            .then(response => response.text())
+            .then(data => {
+
+                document.getElementById("filaPrioridade").innerText = data;
+
+            });
+
+    }
+
+    /* AO CARREGAR */
+
+    window.onload = function() {
+
+        atualizarFilas();
+
+    };
+
+</script>
+
+</body>
+</html>
