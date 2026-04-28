@@ -1,99 +1,262 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>Sistema de Fila</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        /* RESET */
+
+        * {
+            box-sizing: border-box;
         }
 
-        /* CAIXA */
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #0f172a;
+
+            margin: 0;
+            padding: 15px;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+        }
+
+        /* CONTAINER */
 
         .container {
+
+            width: 100%;
+            max-width: 500px;
+
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            width: 350px;
-            text-align: center;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+
         }
+
+        /* TÍTULO */
 
         h1 {
-            margin-bottom: 15px;
+
+            text-align: center;
+
+            margin-bottom: 10px;
+
         }
 
-        /* BALÃO */
+        /* PAINEL */
 
-        .senha-balao {
-            width: 140px;
-            height: 140px;
-            background-color: #3498db;
+        .painel {
+
+            background: #111827;
+
             color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+
+        }
+
+        .chamando {
+
+            text-align: center;
+
+            font-size: 18px;
+
+            opacity: 0.7;
+
+        }
+
+        /* SENHA */
+
+        .senha-gigante {
+
+            text-align: center;
+
+            font-size: 64px;
+
             font-weight: bold;
-            margin: 20px auto;
+
+            margin-top: 10px;
+
+            color: white;
+
+            transition: 0.3s;
+
+        }
+
+        /* GUICHÊ */
+
+        .guiche {
+
+            text-align: center;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            margin-top: 8px;
+
+            color: #60a5fa;
+
+        }
+
+        /* SELECT */
+
+        select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin: 8px 0;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
         }
 
         /* BOTÕES */
 
         button {
+
             width: 100%;
-            padding: 12px;
+
+            padding: 15px;
+
             margin: 8px 0;
+
             border: none;
-            border-radius: 8px;
+
+            border-radius: 12px;
+
             font-size: 16px;
+
+            font-weight: bold;
+
             cursor: pointer;
+
         }
 
         .normal {
-            background-color: #3498db;
+            background-color: #3b82f6;
             color: white;
         }
 
         .prioridade {
-            background-color: #e67e22;
+            background-color: #f97316;
             color: white;
         }
 
         .chamar {
-            background-color: #2ecc71;
+            background-color: #22c55e;
             color: white;
-        }
-
-        button:hover {
-            opacity: 0.9;
         }
 
         /* MENSAGEM */
 
         .mensagem {
+
             margin-top: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            background-color: #2ecc71;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background-color: #22c55e;
+
             color: white;
+
             font-weight: bold;
+
             display: none;
+
         }
 
         /* FILAS */
 
         .filas {
+
             margin-top: 20px;
-            text-align: left;
+
+        }
+
+        .fila-box {
+
+            background: #f1f5f9;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            margin-bottom: 10px;
+
             font-size: 14px;
+
+        }
+
+        /* RESPONSIVO */
+
+        @media (max-width: 400px) {
+
+            .senha-gigante {
+                font-size: 48px;
+            }
+
+        }
+
+        @media (min-width: 768px) {
+
+            .senha-gigante {
+                font-size: 90px;
+            }
+
+        }
+
+        /* 🔥 ANIMAÇÃO AMARELA PROFISSIONAL */
+
+        @keyframes destaqueAmarelo {
+
+            0% {
+                color: white;
+                text-shadow: none;
+            }
+
+            50% {
+                color: yellow;
+                text-shadow: 0 0 25px yellow;
+                transform: scale(1.1);
+            }
+
+            100% {
+                color: white;
+                text-shadow: none;
+                transform: scale(1);
+            }
+
+        }
+
+        .destaque {
+
+            animation: destaqueAmarelo 0.8s ease-in-out 4;
+
         }
 
     </style>
@@ -106,12 +269,33 @@
 
     <h1>Sistema de Fila</h1>
 
-    <div class="senha-balao" id="senha">
-        ---
+    <div class="painel">
+
+        <div class="chamando">
+            Chamando senha
+        </div>
+
+        <div class="senha-gigante" id="senha">
+            ---
+        </div>
+
+        <div class="guiche" id="guichePainel">
+            Guichê 1
+        </div>
+
     </div>
 
-    <div id="mensagem" class="mensagem">
-    </div>
+    <div id="mensagem" class="mensagem"></div>
+
+    <label><strong>Guichê:</strong></label>
+
+    <select id="guiche">
+
+        <option value="1">Guichê 1</option>
+        <option value="2">Guichê 2</option>
+        <option value="3">Guichê 3</option>
+
+    </select>
 
     <button class="normal" onclick="gerarNormal()">
         Gerar Normal
@@ -128,10 +312,16 @@
     <div class="filas">
 
         <p><strong>Fila Normal:</strong></p>
-        <p id="filaNormal">---</p>
+
+        <div class="fila-box" id="filaNormal">
+            ---
+        </div>
 
         <p><strong>Fila Prioridade:</strong></p>
-        <p id="filaPrioridade">---</p>
+
+        <div class="fila-box" id="filaPrioridade">
+            ---
+        </div>
 
     </div>
 
@@ -150,7 +340,7 @@
             .then(data => {
 
                 mostrarMensagem(
-                    "Senha gerada com sucesso: " + data
+                    "Senha gerada: " + data
                 );
 
                 atualizarFilas();
@@ -170,7 +360,7 @@
             .then(data => {
 
                 mostrarMensagem(
-                    "Senha PRIORITÁRIA gerada: " + data
+                    "Senha PRIORITÁRIA: " + data
                 );
 
                 atualizarFilas();
@@ -183,15 +373,41 @@
 
     function chamar() {
 
+        let guicheSelecionado =
+            document.getElementById("guiche").value;
+
         fetch("/chamar", {
             method: "POST"
         })
             .then(response => response.text())
             .then(data => {
 
+                if (data === "" || data === "---" || data === "Nenhuma senha") {
+
+                    mostrarMensagem(
+                        "Ainda não há senhas na fila"
+                    );
+
+                    return;
+
+                }
+
+                /* MOSTRA SENHA */
+
                 document.getElementById("senha").innerText = data;
 
+                document.getElementById("guichePainel").innerText =
+                    "Guichê " + guicheSelecionado;
+
+                /* SOM + VOZ */
+
                 tocarSom();
+
+                /* PISCAR */
+
+                piscarSenha();
+
+                /* ATUALIZA FILAS */
 
                 atualizarFilas();
 
@@ -203,7 +419,8 @@
 
     function mostrarMensagem(texto) {
 
-        let msg = document.getElementById("mensagem");
+        let msg =
+            document.getElementById("mensagem");
 
         msg.innerText = texto;
 
@@ -217,15 +434,41 @@
 
     }
 
-    /* SOM */
+    /* 🔊 SOM + VOZ */
+
+    /* SOM PROFISSIONAL */
+
+    let audioChamada = new Audio(
+        "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
+    );
+
+    /* pré-carrega o áudio */
+    audioChamada.preload = "auto";
 
     function tocarSom() {
 
-        let audio = new Audio(
-            "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
-        );
+        audioChamada.currentTime = 0;
 
-        audio.play();
+        audioChamada.volume = 0.9;
+
+        audioChamada.play();
+
+    }
+
+    /* 🟡 PISCAR AMARELO */
+
+    function piscarSenha() {
+
+        let senha =
+            document.getElementById("senha");
+
+        senha.classList.add("destaque");
+
+        setTimeout(() => {
+
+            senha.classList.remove("destaque");
+
+        }, 3200);
 
     }
 
@@ -251,7 +494,9 @@
 
     }
 
-    /* AO CARREGAR */
+    /* AUTO ATUALIZA */
+
+    setInterval(atualizarFilas, 3000);
 
     window.onload = function() {
 
@@ -262,4 +507,5 @@
 </script>
 
 </body>
+
 </html>
